@@ -55,11 +55,11 @@ exports.kakaoAuthCallback = async (req, res) => {
       if (err) {
         console.error("세션 저장 오류:", err);
       }
-      res.redirect("http://localhost:3001/");
+      res.redirect(`${process.env.FRONTEND_URL}`);
     });
   } catch (err) {
     console.error("카카오 로그인 실패:", err);
-    res.redirect("http://localhost:3001/login?error=auth_failed");
+    res.redirect(`${process.env.FRONTEND_URL}/login?error=auth_failed`);
   }
 };
 
