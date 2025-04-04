@@ -54,8 +54,8 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      tableName: "stores",
-      timestamps: false, // 수동 관리
+      freezeTableName: true,
+      timestamps: false,
     }
   );
 

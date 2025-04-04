@@ -3,7 +3,7 @@ const session = require("express-session");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const { sequelize } = require("./models");
-
+require("dotenv").config();
 if (process.env.NODE_ENV === "production") {
   dotenv.config({ path: ".env.production" });
 } else {
