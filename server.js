@@ -17,7 +17,7 @@ const prefix = "/api";
 // 미들웨어 설정
 app.use(
   cors({
-    origin: "http://localhost:3001", // 프론트엔드 주소
+    origin: "http://13.124.25.138", // 프론트엔드 주소
     credentials: true, // 쿠키 전달 허용
   })
 );
@@ -62,7 +62,7 @@ sequelize
   .sync({ force: false })
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`✅ Server running at http://localhost:${PORT}`);
+      console.log(`✅ Server running at http://13.124.25.138:${PORT}`);
     });
   })
   .catch((err) => {
