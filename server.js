@@ -68,3 +68,4 @@ sequelize
   .catch((err) => {
     console.error("❗ Database sync 오류:", err);
   });
+//env 파일 수정
