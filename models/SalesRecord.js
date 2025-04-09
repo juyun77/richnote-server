@@ -1,4 +1,3 @@
-// models/salesRecord.js
 module.exports = (sequelize, DataTypes) => {
   const SalesRecord = sequelize.define(
     "SalesRecord",
@@ -27,6 +26,21 @@ module.exports = (sequelize, DataTypes) => {
       totalPrice: {
         type: DataTypes.INTEGER,
         allowNull: false,
+      },
+      costPrice: {
+        // ✅ 매입금액 (추가)
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      profitPrice: {
+        // ✅ 수익금액 (추가)
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      barcode: {
+        // ✅ 바코드 (추가)
+        type: DataTypes.STRING(50),
+        allowNull: true, // 경우에 따라 없을 수도 있으니 allowNull: true
       },
     },
     {

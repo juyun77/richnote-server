@@ -17,8 +17,8 @@ const prefix = "/api";
 // 미들웨어 설정
 app.use(
   cors({
-    origin: "http://13.124.25.138", // 프론트엔드 주소
-    credentials: true, // 쿠키 전달 허용
+    origin: ["http://13.124.25.138", "http://localhost:3001"], // 둘 다 허용
+    credentials: true,
   })
 );
 

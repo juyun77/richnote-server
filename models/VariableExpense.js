@@ -33,7 +33,19 @@ module.exports = (sequelize, DataTypes) => {
         comment: "지출 금액 (₩)",
       },
     },
-    { freezeTableName: true, timestamps: false }
+    {
+      freezeTableName: true,
+      timestamps: false,
+
+      // ✅ 유니크 인덱스 추가
+      indexes: [
+        {
+          unique: true,
+          fields: ["storeId", "year", "month", "name"],
+          name: "unique_store_year_month_name",
+        },
+      ],
+    }
   );
 
   return VariableExpense;

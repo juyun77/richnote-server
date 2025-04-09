@@ -1,7 +1,9 @@
 // controllers/productController.js
-const { Product } = require("../models");
 
-// controllers/Cproduct.js
+const { Product } = require("../models");
+const { Op } = require("sequelize");
+
+// ✅ 새 상품 등록 (bulk insert)
 exports.createProduct = async (req, res) => {
   try {
     const products = req.body;
@@ -26,9 +28,9 @@ exports.createProduct = async (req, res) => {
       };
     });
 
-    // 핵심: 이미 있는 건 업데이트, 없으면 삽입
     const created = await Product.bulkCreate(calculated, {
       updateOnDuplicate: [
+        "name",
         "quantity",
         "costPrice",
         "salePrice",
@@ -44,42 +46,66 @@ exports.createProduct = async (req, res) => {
   }
 };
 
+// ✅ 특정 매장의 상품 전체 조회 (페이지네이션 + 검색)
 exports.getProductsByStore = async (req, res) => {
   try {
-    const products = await Product.findAll({
-      where: { storeId: req.params.storeId },
+    const { storeId } = req.params;
+    const { page = 1, limit = 10, search = "" } = req.query;
+
+    const offset = (Number(page) - 1) * Number(limit);
+
+    const whereCondition = { storeId };
+
+    if (search) {
+      whereCondition.name = { [Op.like]: `%${search}%` };
+    }
+
+    const { count, rows } = await Product.findAndCountAll({
+      where: whereCondition,
+      limit: Number(limit),
+      offset: Number(offset),
+      order: [["id", "ASC"]],
     });
-    res.json(products);
+
+    res.json({
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: Number(page),
+      products: rows,
+    });
   } catch (error) {
+    console.error("❌ 상품 목록 조회 실패:", error);
     res.status(500).json({ error: error.message });
   }
 };
 
+// ✅ 단일 상품 수정
 exports.updateProduct = async (req, res) => {
   try {
-    console.log("데이터 받아오나요?", req.body);
     await Product.update(req.body, { where: { id: req.params.id } });
-    res.json({ message: "Product updated" });
+    res.json({ message: "상품 수정 완료" });
   } catch (error) {
+    console.error("❌ 상품 수정 실패:", error);
     res.status(400).json({ error: error.message });
   }
 };
 
+// ✅ 단일 상품 삭제
 exports.deleteProduct = async (req, res) => {
   try {
     await Product.destroy({ where: { id: req.params.id } });
-    res.json({ message: "Product deleted" });
+    res.json({ message: "상품 삭제 완료" });
   } catch (error) {
+    console.error("❌ 상품 삭제 실패:", error);
     res.status(400).json({ error: error.message });
   }
 };
 
+// ✅ 상품 일괄 수정
 exports.bulkUpdateProducts = async (req, res) => {
-  const products = req.body;
-
-  console.log("저장해야하는데!!", products);
-
   try {
+    const products = req.body;
+
     for (const product of products) {
       const profit = product.salePrice - product.costPrice;
       const marginRate =
@@ -89,6 +115,7 @@ exports.bulkUpdateProducts = async (req, res) => {
 
       await Product.update(
         {
+          name: product.name,
           quantity: product.quantity,
           costPrice: product.costPrice,
           salePrice: product.salePrice,
@@ -103,7 +130,7 @@ exports.bulkUpdateProducts = async (req, res) => {
 
     res.status(200).json({ message: "상품 일괄 수정 완료" });
   } catch (error) {
-    console.error("상품 일괄 수정 오류:", error);
+    console.error("❌ 상품 일괄 수정 실패:", error);
     res.status(500).json({ error: "상품 수정 중 오류 발생" });
   }
 };
