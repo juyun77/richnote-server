@@ -23,6 +23,7 @@ db.VariableExpense = require("./VariableExpense")(
   sequelize,
   Sequelize.DataTypes
 );
+db.Note = require("./Note")(sequelize, Sequelize.DataTypes);
 
 // 관계 설정
 // 1. User - Store (1:N)
@@ -52,5 +53,9 @@ db.VariableExpense.belongsTo(db.Store, {
   foreignKey: "storeId",
   onDelete: "CASCADE",
 });
+
+// 5. Store - Note (1:N)
+db.Store.hasMany(db.Note, { foreignKey: "storeId", onDelete: "CASCADE" });
+db.Note.belongsTo(db.Store, { foreignKey: "storeId", onDelete: "CASCADE" });
 
 module.exports = db;

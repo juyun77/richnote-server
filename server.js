@@ -70,12 +70,14 @@ const storeRoutes = require("./routes/storeRoutes");
 const productRoutes = require("./routes/productRoutes");
 const salesRecordRoutes = require("./routes/salesRecordRoutes");
 const veRoutes = require("./routes/variableExpenseRoutes");
+const noteRoutes = require("./routes/noteRoutes");
 
 app.use(`${prefix}/users`, userRoutes);
 app.use(`${prefix}/stores`, storeRoutes);
 app.use(`${prefix}/products`, productRoutes);
 app.use(`${prefix}/sales`, salesRecordRoutes);
 app.use(`${prefix}/variable-expense`, veRoutes);
+app.use(`${prefix}/note`, noteRoutes);
 
 // 테스트용
 app.get("/", (req, res) => {
