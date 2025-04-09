@@ -2,7 +2,7 @@ const { SalesRecord, Product } = require("../models");
 const { Op } = require("sequelize");
 const { sequelize } = require("../models");
 
-// ✅ 매출 업로드
+// 매출 업로드
 exports.uploadSales = async (req, res) => {
   try {
     const { storeId, data } = req.body;
@@ -17,9 +17,9 @@ exports.uploadSales = async (req, res) => {
       return res.status(400).json({ msg: "업로드할 데이터가 없습니다." });
     }
 
-    const uploadDate = data[0].date; // ✅ 업로드하는 데이터의 날짜 사용
+    const uploadDate = data[0].date; //  업로드하는 데이터의 날짜 사용
 
-    // ✅ 업로드 전에 (storeId + date) 중복 체크
+    // 업로드 전에 (storeId + date) 중복 체크
     const existingRecords = await SalesRecord.findOne({
       where: {
         storeId,
@@ -34,7 +34,7 @@ exports.uploadSales = async (req, res) => {
     }
 
     const records = data
-      .filter((row) => row["상품명"] || row["productName"]) // ✅ 상품명 없는 행 제거
+      .filter((row) => row["상품명"] || row["productName"]) //  상품명 없는 행 제거
       .map((row) => ({
         storeId,
         date: row["날짜"] || row["date"],
@@ -56,7 +56,7 @@ exports.uploadSales = async (req, res) => {
   }
 };
 
-// ✅ 기간별 조회
+// 기간별 조회
 exports.getSalesByRange = async (req, res) => {
   try {
     const { storeId, startDate, endDate } = req.query;
@@ -85,7 +85,7 @@ exports.getSalesByRange = async (req, res) => {
   }
 };
 
-// ✅ 문자열 유사도 비교 함수
+//  문자열 유사도 비교 함수
 function similarity(str1, str2) {
   str1 = str1.toLowerCase();
   str2 = str2.toLowerCase();
@@ -99,7 +99,7 @@ function similarity(str1, str2) {
   return commonLength / longer.length;
 }
 
-// ✅ 재고 자동 차감
+// 재고 자동 차감
 exports.autoDeductStock = async (req, res) => {
   const { storeId, salesData } = req.body;
 
@@ -153,7 +153,7 @@ exports.autoDeductStock = async (req, res) => {
     if (errors.length > 0) {
       return res.status(207).json({
         message: "일부 실패",
-        errors, // 👈 실패 리스트 같이 보냄!
+        errors, //  실패 리스트 같이 보냄!
       });
     } else {
       return res.status(200).json({

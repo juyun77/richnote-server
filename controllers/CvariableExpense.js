@@ -1,8 +1,8 @@
 const { VariableExpense } = require("../models");
 const { Op } = require("sequelize"); // Op 추가
 
-// ✅ 생성 (bulk insert)
-// ✅ 중복된 항목은 amount만 업데이트 (storeId + year + month + name 기준)
+//  생성 (bulk insert)
+// 중복된 항목은 amount만 업데이트 (storeId + year + month + name 기준)
 exports.create = async (req, res) => {
   try {
     const data = req.body;
@@ -23,7 +23,7 @@ exports.create = async (req, res) => {
   }
 };
 
-// ✅ 월별 조회 (storeId + year + month로 필터링)
+//  월별 조회 (storeId + year + month로 필터링)
 exports.getByMonth = async (req, res) => {
   const { storeId, year, month } = req.params;
 
@@ -48,7 +48,7 @@ exports.getByMonth = async (req, res) => {
   }
 };
 
-// ✅ 개별 삭제 (id 기준)
+// 개별 삭제 (id 기준)
 exports.delete = async (req, res) => {
   const { id } = req.params;
 
@@ -66,7 +66,7 @@ exports.delete = async (req, res) => {
   }
 };
 
-// ✅ 개별 수정 (id 기준 업데이트)
+// 개별 수정 (id 기준 업데이트)
 exports.update = async (req, res) => {
   const { id } = req.params;
   const { name, amount, storeId, year, month } = req.body;

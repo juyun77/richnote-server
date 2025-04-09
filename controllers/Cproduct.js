@@ -3,7 +3,7 @@
 const { Product } = require("../models");
 const { Op } = require("sequelize");
 
-// ✅ 새 상품 등록 (bulk insert)
+// 새 상품 등록 (bulk insert)
 exports.createProduct = async (req, res) => {
   try {
     const products = req.body;
@@ -46,7 +46,7 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-// ✅ 특정 매장의 상품 전체 조회 (페이지네이션 + 검색)
+//  특정 매장의 상품 전체 조회 (페이지네이션 + 검색)
 exports.getProductsByStore = async (req, res) => {
   try {
     const { storeId } = req.params;
@@ -79,7 +79,7 @@ exports.getProductsByStore = async (req, res) => {
   }
 };
 
-// ✅ 단일 상품 수정
+//  단일 상품 수정
 exports.updateProduct = async (req, res) => {
   try {
     await Product.update(req.body, { where: { id: req.params.id } });
@@ -90,7 +90,7 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
-// ✅ 단일 상품 삭제
+//  단일 상품 삭제
 exports.deleteProduct = async (req, res) => {
   try {
     await Product.destroy({ where: { id: req.params.id } });
@@ -101,7 +101,7 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
-// ✅ 상품 일괄 수정
+//  상품 일괄 수정
 exports.bulkUpdateProducts = async (req, res) => {
   try {
     const products = req.body;
